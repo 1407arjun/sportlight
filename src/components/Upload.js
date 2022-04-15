@@ -10,16 +10,19 @@ import {
     Icon,
     useToast,
     Image,
-    HStack
+    HStack,
+    useDisclosure
 } from "@chakra-ui/react"
 import { useState } from "react"
 import ReactPlayer from "react-player"
 import axios from "axios"
 import React from "react"
+import Modal from "./Modal"
 
 export default function Upload() {
     const toast = useToast()
     const toastIdRef = React.useRef()
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const createToast = (title, status) =>
         toast({
             title: title,
@@ -31,6 +34,8 @@ export default function Upload() {
     const [videoLink, setVideoLink] = useState(null)
     const [isUploading, setIsUploading] = useState(false)
     const [videoFromUrl, setVideoFromUrl] = useState(null)
+    const [data, setData] = useState({ keys: [] })
+    const [modal, setModal] = useState(false)
 
     const handleVideoUploadChange = (event) => {
         const [file] = event.target.files
@@ -44,6 +49,7 @@ export default function Upload() {
 
     // confirming to load video from URL
     const confirmVideo = () => {
+        setModal(false)
         if (!videoFromUrl) {
             createToast("Please enter a video URL.", "error")
             return
@@ -61,8 +67,6 @@ export default function Upload() {
         setVideoLink(videoFilePath)
         setIsUploading(true)
 
-        console.log(videoLink)
-
         const r1 = await axios.get(`/api/video?url=${videoLink.toString()}`)
         console.log(r1.data)
         if (r1.data.statusCode !== 201) {
@@ -70,7 +74,6 @@ export default function Upload() {
             setIsUploading(false)
         } else {
             let status = "0"
-            console.log()
             while (status === "0" || status === "in_progress") {
                 let r2 = await axios.get(
                     `/api/status?id=${JSON.parse(r1.data.response).jobId}`
@@ -86,7 +89,9 @@ export default function Upload() {
                 )
                 console.log(r3.data)
                 let r4 = await axios.post(`/api/model`, { data: r3.data })
-                console.log("Done", r4.data)
+                console.log(r4.data)
+                setData(r4.data)
+                setModal(true)
                 setIsUploading(false)
             } else {
                 createToast("Unknown error.", "error")
@@ -114,6 +119,14 @@ export default function Upload() {
                     color={"gray.400"}
                     fontSize={{ base: "sm", sm: "md" }}
                     textAlign="center">
+                    <span>
+                        <strong>
+                            The URL provided must be a publicly available URL.
+                            Currently we do not support any redirected links,
+                            shortened links (e.g. bit.ly), YouTube, Vimeo, or
+                            links from any audio/video platforms.
+                        </strong>
+                    </span>{" "}
                     The application uses AI enabled methods to automatically
                     generate highlights data feed from an input video file. The
                     expected output data feed contains start/end time stamps of
@@ -183,6 +196,14 @@ export default function Upload() {
                             Uploading may take time due to processing by
                             multiple models via an API
                         </Text>
+                        {modal && (
+                            <Modal
+                                isOpen={isOpen}
+                                onOpen={onOpen}
+                                onClose={onClose}
+                                data={data}
+                            />
+                        )}
                     </Stack>
                 </Box>
                 form

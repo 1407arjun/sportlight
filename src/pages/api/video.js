@@ -1,4 +1,7 @@
 import request from "request"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 const responses = {
     400: "Bad Request! Please refer docs for correct input fields.",
@@ -10,7 +13,6 @@ const responses = {
 
 export default function handler(req, res) {
     if (req.method === "GET") {
-        console.log(req.query)
         const payload = {
             url: req.query.url, //https://symbltestdata.s3.us-east-2.amazonaws.com/sample_video_file.mp4
             name: "Testing",
