@@ -6,11 +6,11 @@ import {
     Container,
     Input,
     Button,
-    SimpleGrid,
     useBreakpointValue,
     Icon,
     useToast,
-    Image
+    Image,
+    HStack
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import ReactPlayer from 'react-player';
@@ -61,96 +61,91 @@ export default function Upload() {
         setIsUploading(true);
     }
     return (
-        <Box position={'relative'}>
-            <Container
-                as={SimpleGrid}
-                maxW={'7xl'}
-                columns={{ base: 1, md: 2 }}
-                spacing={{ base: 10, lg: 32 }}
-                py={{ base: 10, sm: 20, lg: 32 }}>
-                <Stack spacing={{ base: 10, md: 20 }}>
-                    <center>
-                    <Heading
+        <HStack
+            spacing={{ base: 10, lg: 32 }}
+            p={12} position={'relative'} w="100%">
+            <Stack spacing={8} w="50%">
+                <center>
+                <Heading
+                    lineHeight={1.1}
+                    fontSize={{ base: '3xl', sm: '4xl' }} color="white">Your Video
+                </Heading>
+                </center>
+                <ReactPlayer url={videoFilePath} controls width="100%"/>
+                <Text color={'gray.400'} fontSize={{ base: 'sm', sm: 'md' }} textAlign="center">
+                        The application uses AI enabled methods to automatically generate highlights data feed from an input video file. The expected output data feed contains start/end time stamps of interesting clips from the given video feed.
+                </Text>
+            </Stack>
+            <Stack
+                bgColor="gray.900"
+                rounded={'xl'}
+                p={{ base: 4, sm: 6 }}
+                spacing={{ base: 8 }}
+                maxW={{ lg: 'lg' }} w="50%">
+                <Stack spacing={4}>
+                    {/* <Heading
+                        color={'gray.300'}
                         lineHeight={1.1}
-                        fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }} color="white">Your Video
-                    </Heading>
-                    </center>
-                    <ReactPlayer url={videoFilePath} controls />
-                </Stack>
-                <Stack
-                    bgColor="gray.900"
-                    rounded={'xl'}
-                    p={{ base: 4, sm: 6, md: 8 }}
-                    spacing={{ base: 8 }}
-                    maxW={{ lg: 'lg' }}>
-                    <Stack spacing={4}>
-                        {/* <Heading
-                            color={'gray.300'}
-                            lineHeight={1.1}
-                            fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
-                            Sportlight
-                            <Text
-                                as={'span'}
-                                bgGradient="linear(to-r, red.400,pink.400)"
-                                bgClip="text">
-                                !
-                            </Text>
-                        </Heading> */}
-                        <Image src="assets/logo.png" w="200px" mx="auto" />
-                        <Text color={'gray.400'} fontSize={{ base: 'sm', sm: 'md' }}>
-                            The application uses AI enabled methods to automatically generate highlights data feed from an input video file. The expected output data feed contains start/end time stamps of interesting clips from the given video feed.
-                        </Text>
-                    </Stack>
-                    <Box as={'form'} mt={10}>
-                        <Stack spacing={4}>
-                            <Input
-                                placeholder="Paste Video Link..."
-                                bg={'gray.100'}
-                                border={0}
-                                color={'gray.500'}
-                                _placeholder={{
-                                    color: 'gray.500',
-                                }}
-                                onChange={handleFieldChange}
-                            />
-                            <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} onClick={confirmVideo}>
-                                Select Video
-                            </Button>
-                            <center><Text fontSize='xl' color="gray.300">or</Text></center>
-                            <input type="file" name="video_link" id="video_link" style={{ display: "none" }} onChange={handleVideoUploadChange} />
-                            <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} onClick={() => { document.getElementById('video_link').click() }}>
-                                Upload Video
-                            </Button>
-
-                            <Text fontSize='xs' color={'red.500'}></Text>
-                        </Stack>
-                        <Button
-                            isLoading={isUploading}
-                            loadingText="Uploading Video..."
-                            fontFamily={'heading'}
-                            mt={8}
-                            w={'full'}
+                        fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}>
+                        Sportlight
+                        <Text
+                            as={'span'}
                             bgGradient="linear(to-r, red.400,pink.400)"
-                            color={'white'}
-                            onClick={handleOnSubmit}
-                            _hover={{
-                                bgGradient: 'linear(to-r, red.400,pink.400)',
-                                boxShadow: 'xl',
-                            }}>
-
-                            Submit Video
-                        </Button>
-                    </Box>
-                    form
+                            bgClip="text">
+                            !
+                        </Text>
+                    </Heading> */}
+                    <Image src="logo.png" w="200px" mx="auto" alt="Sportlight"/>
                 </Stack>
-            </Container>
+                <Box as={'form'} mt={10}>
+                    <Stack spacing={4}>
+                        <Input
+                            placeholder="Paste Video Link..."
+                            bg={'gray.100'}
+                            border={0}
+                            color={'gray.500'}
+                            _placeholder={{
+                                color: 'gray.500',
+                            }}
+                            onChange={handleFieldChange}
+                        />
+                        <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} onClick={confirmVideo}>
+                            Select Video
+                        </Button>
+                        <center><Text fontSize='xl' color="gray.300">or</Text></center>
+                        <input type="file" name="video_link" id="video_link" style={{ display: "none" }} onChange={handleVideoUploadChange} />
+                        <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} onClick={() => { document.getElementById('video_link').click() }}>
+                            Upload Video
+                        </Button>
+
+                        <Text fontSize='xs' color={'red.500'}></Text>
+                    </Stack>
+                    <Button
+                        isLoading={isUploading}
+                        loadingText="Uploading Video..."
+                        fontFamily={'heading'}
+                        mt={8}
+                        w={'full'}
+                        bgGradient="linear(to-r, red.400,pink.400)"
+                        color={'white'}
+                        onClick={handleOnSubmit}
+                        _hover={{
+                            bgGradient: 'linear(to-r, red.400,pink.400)',
+                            boxShadow: 'xl',
+                        }}>
+
+                        Submit Video
+                    </Button>
+                </Box>
+                form
+            </Stack>
             {/* <Blur
                 position={'absolute'}
                 top={-10}
                 left={-10}
                 style={{ filter: 'blur(70px)' }}
             /> */}
-        </Box>
+        </HStack>
     );
 }
 

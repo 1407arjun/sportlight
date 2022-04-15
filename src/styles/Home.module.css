@@ -1,8 +1,7 @@
 .container {
     padding: 0 2rem;
-    background-image: url(../../public/assets/background.png);
-    background-repeat: no-repeat;
-    background-size: 2000px 1000px;
+    position: relative;
+    overflow-x: hidden;
 }
 
 .main {
