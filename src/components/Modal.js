@@ -33,7 +33,7 @@ export default function ModalData(props) {
                                         color={"white"}
                                         fontSize="md"
                                         fontWeight="semibold">
-                                        {"Highlight 1" +
+                                        {"Highlight " +
                                             (Number(j) + 1).toString() +
                                             ": " +
                                             (
