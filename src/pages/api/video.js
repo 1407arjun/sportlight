@@ -10,9 +10,10 @@ const responses = {
 
 export default function handler(req, res) {
     if (req.method === "GET") {
+        console.log(req.query)
         const payload = {
             url: req.query.url, //https://symbltestdata.s3.us-east-2.amazonaws.com/sample_video_file.mp4
-            name: "BusinessMeeting",
+            name: "Testing",
             confidenceThreshold: 0.5
             //languageCode: "en-IN"
         }
