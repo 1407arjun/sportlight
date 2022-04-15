@@ -22,24 +22,28 @@ export default function ModalData(props) {
                 closeOnOverlayClick={false}
                 size="full">
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Highlights</ModalHeader>
-                    <ModalCloseButton />
+                <ModalContent bgColor="#000717">
+                    <ModalHeader color="white">Highlights</ModalHeader>
                     <ModalBody>
                         <VStack>
                             {props.data.keys.map((i, j) => {
                                 return (
                                     <Text
-                                        key={i}
+                                        key={j}
                                         color={"white"}
                                         fontSize="md"
-                                        fontWeight="semibold"
-                                        textAlign="center">
-                                        {(j + 1).toString() +
-                                            ". " +
-                                            (Number(i) - 5).toString() +
-                                            "-" +
-                                            (Number(i) + 5).toString()}
+                                        fontWeight="semibold">
+                                        {"Highlight 1" +
+                                            (Number(j) + 1).toString() +
+                                            ": " +
+                                            (
+                                                Math.round(Number(i)) - 5
+                                            ).toString() +
+                                            "s to " +
+                                            Math.round(
+                                                Number(i) + 5
+                                            ).toString() +
+                                            "s"}
                                     </Text>
                                 )
                             })}
@@ -48,12 +52,11 @@ export default function ModalData(props) {
 
                     <ModalFooter>
                         <Button
-                            colorScheme="blue"
+                            colorScheme="pink"
                             mr={3}
                             onClick={props.onClose}>
                             Close
                         </Button>
-                        <Button variant="ghost">Secondary Action</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
