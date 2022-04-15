@@ -13,12 +13,12 @@ export default function handler(req, res) {
         const payload = {
             url: req.query.url, //https://symbltestdata.s3.us-east-2.amazonaws.com/sample_video_file.mp4
             name: "BusinessMeeting",
-            confidenceThreshold: 0.5,
-            languageCode: "en-IN"
+            confidenceThreshold: 0.5
+            //languageCode: "en-IN"
         }
 
         const videoOption = {
-            url: "https://api.symbl.ai/v1/process/video/url",
+            url: "https://api-labs.symbl.ai/v1/process/video/url",
             headers: {
                 Authorization: `Bearer ${process.env.AUTH_TOKEN}`,
                 "Content-Type": "application/json"
@@ -34,7 +34,9 @@ export default function handler(req, res) {
             ) {
                 throw new Error(responses[statusCode])
             }
-            res.send({ statusCode, response: response.body })
+            res.send(
+                JSON.stringify({ statusCode, response: response.body }, null, 4)
+            )
         })
     }
 }
