@@ -69,19 +69,24 @@ export default function Upload() {
             createToast("Unknown error.", "error")
             setIsUploading(false)
         } else {
-            let status = ""
-            while (status === "" || status === "in_progress") {
+            let status = "0"
+            console.log()
+            while (status === "0" || status === "in_progress") {
                 let r2 = await axios.get(
-                    `/api/status?id=${r1.data.response.jobId}`
+                    `/api/status?id=${JSON.parse(r1.data.response).jobId}`
                 )
                 console.log(r2.data)
-                status = r2.data.response.status
+                status = r2.data.status
             }
             if (status === "completed") {
                 let r3 = await axios.get(
-                    `/api/conversation?id=${r1.data.response.conversationId}`
+                    `/api/conversation?id=${
+                        JSON.parse(r1.data.response).conversationId
+                    }`
                 )
-                console.log("Done", r3.data.response)
+                console.log(r3.data)
+                let r4 = await axios.post(`/api/model`, { data: r3.data })
+                console.log("Done", r4.data)
                 setIsUploading(false)
             } else {
                 createToast("Unknown error.", "error")
@@ -170,6 +175,14 @@ export default function Upload() {
                             }}>
                             Submit Video
                         </Button>
+                        <Text
+                            color={"gray.400"}
+                            fontSize="sm"
+                            fontWeight="semibold"
+                            textAlign="center">
+                            Uploading may take time due to processing by
+                            multiple models via an API
+                        </Text>
                     </Stack>
                 </Box>
                 form
