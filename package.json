@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11.9.0",
@@ -19,15 +18,13 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-hook-form": "^7.29.0",
-    "react-player": "^2.10.0"
-=======
+    "react-player": "^2.10.0",
     "dotenv": "^16.0.0",
     "firebase": "^9.6.11",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "request": "^2.88.2"
->>>>>>> 469ceb1a257598f4dd6e06d1c41f50378cf3d1f9
   },
   "devDependencies": {
     "eslint": "8.13.0",
