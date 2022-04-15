@@ -21,6 +21,17 @@ def return_timestamp():
 
     negative = list()
     positive = list()
+
+    add=["Straight","bat","ball","biggie","Cover","OnDrive","Square","Forward","stadium","Defence","Sweep","Reverse",
+    "FrontFoot ","LegGlance ","BackFoot","SquareCut","Pull ","Shot","Hook","Uppercut","Cut","Helicopter ","SwitchHit",
+    "Dilscoop","class","bounce","Upper","Uppish","Scoop ","Inside","Out","Shots","Bouncer", "Outswinger","Inswinger",
+    "ReverseSwing","played","LegCutter","OffCutter","Yorker","Slower","Spin","LegBreak ","OffBreak","Googly ",
+    "Doosra","Topspin ","CarromBall","Slider","ArmBall","Infield","InnerRing","Outfield","Catching","Wicketkeeper",
+    "Slip","Gully","LegSlip","LegGully","Sillypoint","Sillymidoff","Shortleg","Sillymidon","InnerRing","Point","BackwardPoint",
+    "MidOff","Cover","MidOn","SquareLeg","Backward ","SquareLeg","MidWicket","FineLeg","Outfield","ThirdMan",
+    "DeepPoint","BackwardPoint","ExtraCover","LongOff","FineLeg","LongLeg","LongOn","Deep","Cover","played","account"
+    "cricket","hard","sides","man","finishes"]
+
     highlights_positive=["shot","six","four","boundary","line","drive","celebrate","placement","beauty","fifty","century","perfect","magnifcient","world","cup","batting","fielding","bowling"]
     hightlights_negative=["catch","caught","out","stumped","bowled","taken","edged","wicket","review","DRS","cuts","out","short"]
     for i in highlights_positive:
@@ -31,12 +42,13 @@ def return_timestamp():
     for i in hightlights_negative:
         for synset in wordnet.synsets(i):
             for lemma in synset.lemmas():
-                negative.append(lemma.name()) 
+                negative.append(lemma.name())  
 
 
     string_postive=" ".join(positive)
     string_negative=" ".join(negative)
-    strings=string_postive+" "+string_negative
+    string_add=" ".join(add)
+    strings=string_postive+" "+string_negative+" "+string_add
 
     l=d['messages']
     phrases=[]
@@ -68,7 +80,7 @@ def return_timestamp():
     stack_first=[]
     stack_last=[]
     for i in ans:
-        if(i>=0.001):
+        if(i>=0.0001):
             index=ans.index(i)
             print(phrases[index])
             stack_first.append(starttime[index])
@@ -76,8 +88,10 @@ def return_timestamp():
     len(stack_first)
 
     stack_first.sort()
-    stack_first
-    data={"keys":stack_first}
-    print(data);
+    result=[]
+    for i in stack_first:
+        if(i not in result):
+            result.append(i)
+    data={"keys":result}
     return jsonify(data)
 
