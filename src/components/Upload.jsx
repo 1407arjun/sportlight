@@ -10,9 +10,30 @@ import {
     useBreakpointValue,
     Icon,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import ReactPlayer from 'react-player'
 
 export default function Upload() {
+    const [videoFilePath, setVideoFilePath] = useState(null);
+    const [videoLink, setVideoLink] = useState(null);
+
+    const [videoFromUrl, setVideoFromUrl] = useState(null);
+
+    const handleVideoUploadChange = (event) => {
+        const [file] = event.target.files;
+        setVideoFilePath(URL.createObjectURL(file));
+    }
+
+    const handleFieldChange = (event)=> {
+        const url = event.target.value;
+        setVideoFromUrl(event.target.value)
+    }
+    const confirmVideo = ()=> {
+        setVideoFilePath(videoFromUrl);
+    }
+    const handleOnSubmit = ()=> {
+        setVideoLink(videoFilePath);
+    }
     return (
         <Box position={'relative'}>
             <Container
@@ -26,7 +47,7 @@ export default function Upload() {
                         lineHeight={1.1}
                         fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>Your Video
                     </Heading>
-                    <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />
+                    <ReactPlayer url={videoFilePath} controls />
                 </Stack>
                 <Stack
                     bg={'gray.50'}
@@ -61,13 +82,19 @@ export default function Upload() {
                                 _placeholder={{
                                     color: 'gray.500',
                                 }}
+                                onChange={handleFieldChange}
                             />
+                            <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} onClick={confirmVideo}>
+                                Select
+                            </Button>
                             <center><Text fontSize='xl'>or</Text></center>
-                            <input type="file" name="video_link" id="video_link" style={{ display: "none" }} />
+                            <input type="file" name="video_link" id="video_link" style={{ display: "none" }} onChange={handleVideoUploadChange} onClick={handleOnSubmit} />
 
                             <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} onClick={() => { document.getElementById('video_link').click() }}>
                                 Upload Video
                             </Button>
+
+                            <Text fontSize='xs' color={'red.500'}></Text>
                         </Stack>
                         <Button
                             fontFamily={'heading'}
