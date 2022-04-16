@@ -1,5 +1,4 @@
 
-# imports
 import json
 import pandas as pd
 import numpy as np
@@ -15,11 +14,11 @@ app = Flask(__name__)
 
 nltk.download('wordnet')
 nltk.download('omw-1.4')
+
 @app.route("/", methods=["POST"])
 def return_timestamp():
     d = request.json
 
-    negative = list()
     positive = list()
 
     add=["Straight","bat","ball","biggie","Cover","OnDrive","Square","Forward","stadium","Defence","Sweep","Reverse",
@@ -30,25 +29,16 @@ def return_timestamp():
     "Slip","Gully","LegSlip","LegGully","Sillypoint","Sillymidoff","Shortleg","Sillymidon","InnerRing","Point","BackwardPoint",
     "MidOff","Cover","MidOn","SquareLeg","Backward ","SquareLeg","MidWicket","FineLeg","Outfield","ThirdMan",
     "DeepPoint","BackwardPoint","ExtraCover","LongOff","FineLeg","LongLeg","LongOn","Deep","Cover","played","account"
-    "cricket","hard","sides","man","finishes"]
+    "cricket","hard","sides","man","finishes","one","crucial","Captain","shot","six","four","boundary","line","drive",
+    "celebrate","placement","beauty","fifty","century","perfect","magnifcient","world","cup","batting","fielding","bowling",
+    "catch","caught","out","stumped","one","bowled","night","final","room","taken","edged","wicket","review","DRS","cuts","out","short"]
 
-    highlights_positive=["shot","six","four","boundary","line","drive","celebrate","placement","beauty","fifty","century","perfect","magnifcient","world","cup","batting","fielding","bowling"]
-    hightlights_negative=["catch","caught","out","stumped","bowled","taken","edged","wicket","review","DRS","cuts","out","short"]
-    for i in highlights_positive:
+    for i in add:
         for synset in wordnet.synsets(i):
             for lemma in synset.lemmas():
                 positive.append(lemma.name()) 
 
-    for i in hightlights_negative:
-        for synset in wordnet.synsets(i):
-            for lemma in synset.lemmas():
-                negative.append(lemma.name())  
-
-
-    string_postive=" ".join(positive)
-    string_negative=" ".join(negative)
-    string_add=" ".join(add)
-    strings=string_postive+" "+string_negative+" "+string_add
+    strings=' '.join(positive)
 
     l=d['messages']
     phrases=[]
@@ -77,21 +67,29 @@ def return_timestamp():
         result=create_dataframe(cosine_similarity_matrix,['Phrase','Strings'])
         ans.append(result['Phrase'].values[1])
 
+    ans
+
     stack_first=[]
     stack_last=[]
     for i in ans:
-        if(i>=0.0001):
+        if(i>=0.001):
             index=ans.index(i)
-            print(phrases[index])
             stack_first.append(starttime[index])
-
-    len(stack_first)
 
     stack_first.sort()
     result=[]
     for i in stack_first:
         if(i not in result):
             result.append(i)
-    data={"keys":result}
-    return jsonify(data)
 
+    values=[]
+    for i in range(len(result)-1):
+        if(result[i]+3<result[i+1]):
+            values.append(result[i])
+            if(result[i+1] not in values)and(result[i] not in values):
+                values.append(result[i+1])
+
+    len(result)
+    len(values)
+    data={"keys":values}
+    return jsonify(data)
