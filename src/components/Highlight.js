@@ -7,11 +7,13 @@ export default function Highlight(props) {
             "loadedmetadata",
             function () {
                 this.currentTime = Math.round(Number(props.time) - 3)
-                video.play()
                 setInterval(function () {
-                    if (
-                        video.currentTime > Math.round(Number(props.time) + 3)
-                    ) {
+                    if (video.currentTime > Math.round(Number(props.time) + 3)) {
+                        video.currentTime = Math.round(Number(props.time) + 3);
+                        video.pause()
+                    }
+                    if (video.currentTime < Math.round(Number(props.time) - 3)) {
+                        video.currentTime = Math.round(Number(props.time) - 3)
                         video.pause()
                     }
                 }, 1000)
