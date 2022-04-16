@@ -6,14 +6,18 @@ export default function Highlight(props) {
         video.addEventListener(
             "loadedmetadata",
             function () {
-                this.currentTime = Math.round(Number(props.time) - 3)
+                this.currentTime = Math.round(Number(props.time) - 7)
                 setInterval(function () {
-                    if (video.currentTime > Math.round(Number(props.time) + 3)) {
-                        video.currentTime = Math.round(Number(props.time) + 3);
+                    if (
+                        video.currentTime > Math.round(Number(props.time) + 7)
+                    ) {
+                        video.currentTime = Math.round(Number(props.time) + 7)
                         video.pause()
                     }
-                    if (video.currentTime < Math.round(Number(props.time) - 3)) {
-                        video.currentTime = Math.round(Number(props.time) - 3)
+                    if (
+                        video.currentTime < Math.round(Number(props.time) - 7)
+                    ) {
+                        video.currentTime = Math.round(Number(props.time) - 7)
                         video.pause()
                     }
                 }, 1000)
