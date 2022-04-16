@@ -17,16 +17,15 @@ export default function Home() {
             </Head>
             <Stars id="landing" color="#ffffff" />
             <Upload />
-            <Box w="100%" mt={12}>
-                <Text
-                    w="100%"
-                    textAlign="center"
-                    fontSize="md"
-                    fontWeight="semibold"
-                    color="white">
-                    Made with 🤍 by The Unknowns
-                </Text>
-            </Box>
+            <Text
+                w="100%"
+                mt={4}
+                textAlign="center"
+                fontSize="md"
+                fontWeight="semibold"
+                color="white">
+                Made with 🤍 by The Unknowns
+            </Text>
         </Box>
     )
 }

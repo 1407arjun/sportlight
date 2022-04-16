@@ -3,7 +3,7 @@ import {
     Stack,
     Heading,
     Text,
-    Container,
+    Link,
     Input,
     Button,
     useBreakpointValue,
@@ -11,13 +11,15 @@ import {
     useToast,
     Image,
     HStack,
-    useDisclosure
+    useDisclosure,
+    VStack
 } from "@chakra-ui/react"
 import { useState } from "react"
 import ReactPlayer from "react-player"
 import axios from "axios"
 import React from "react"
 import Modal from "./Modal"
+import Carousel from "./Carousel"
 
 export default function Upload() {
     const toast = useToast()
@@ -31,7 +33,7 @@ export default function Upload() {
             isClosable: true
         })
     const [videoFilePath, setVideoFilePath] = useState(null)
-    const [videoLink, setVideoLink] = useState(null)
+    const [videoLink, setVideoLink] = useState("")
     const [isUploading, setIsUploading] = useState(false)
     const [videoFromUrl, setVideoFromUrl] = useState(null)
     const [data, setData] = useState({ keys: [] })
@@ -100,121 +102,131 @@ export default function Upload() {
         }
     }
     return (
-        <HStack
-            spacing={{ base: 10, lg: 32 }}
-            p={12}
-            position={"relative"}
-            w="100%">
-            <Stack spacing={8} w="50%">
-                <center>
-                    <Heading
-                        lineHeight={1.1}
-                        fontSize={{ base: "3xl", sm: "4xl" }}
-                        color="white">
-                        Your Video
-                    </Heading>
-                </center>
-                <ReactPlayer url={videoFilePath} controls width="100%" />
-                <Text
-                    color={"gray.400"}
-                    fontSize={{ base: "sm", sm: "md" }}
-                    textAlign="center">
-                    <span>
-                        <strong>
-                            The URL provided must be a publicly available URL.
-                            Currently we do not support any redirected links,
-                            shortened links (e.g. bit.ly), YouTube, Vimeo, or
-                            links from any audio/video platforms.
-                        </strong>
-                    </span>{" "}
-                    The application uses AI enabled methods to automatically
-                    generate highlights data feed from an input video file. The
-                    expected output data feed contains start/end time stamps of
-                    interesting clips from the given video feed.
-                </Text>
-            </Stack>
-            <Stack
-                bgColor="gray.900"
-                rounded={"xl"}
-                p={{ base: 4, sm: 6 }}
-                spacing={{ base: 8 }}
-                maxW={{ lg: "lg" }}
-                w="50%">
-                <Stack spacing={4}>
-                    <Image
-                        src="logo.png"
-                        w="200px"
-                        mx="auto"
-                        alt="Sportlight"
-                    />
+        <VStack>
+            <HStack
+                spacing={{ base: 10, lg: 32 }}
+                p={12}
+                position={"relative"}
+                w="100%">
+                <Stack spacing={8} w="50%">
+                    <center>
+                        <Heading
+                            lineHeight={1.1}
+                            fontSize={{ base: "3xl", sm: "4xl" }}
+                            color="white">
+                            Your Video
+                        </Heading>
+                    </center>
+                    <ReactPlayer url={videoFilePath} controls width="100%" />
+                    <Text
+                        color={"gray.400"}
+                        fontSize={{ base: "sm", sm: "md" }}
+                        textAlign="center">
+                        <span>
+                            <strong>
+                                The URL provided must be a publicly available
+                                URL. Currently we do not support any redirected
+                                links, shortened links (e.g. bit.ly), YouTube,
+                                Vimeo, or links from any audio/video platforms.
+                            </strong>
+                        </span>{" "}
+                        The application uses AI enabled methods to automatically
+                        generate highlights data feed from an input video file.
+                        The expected output data feed contains start/end time
+                        stamps of interesting clips from the given video feed.
+                    </Text>
                 </Stack>
-                <Box as={"form"} mt={10}>
+                <Stack
+                    bgColor="gray.900"
+                    rounded={"xl"}
+                    p={{ base: 4, sm: 6 }}
+                    spacing={{ base: 8 }}
+                    maxW={{ lg: "lg" }}
+                    w="50%">
                     <Stack spacing={4}>
-                        <Input
-                            placeholder="Paste Video Link..."
-                            bg={"gray.100"}
-                            border={0}
-                            color={"gray.500"}
-                            _placeholder={{
-                                color: "gray.500"
-                            }}
-                            onChange={handleFieldChange}
+                        <Image
+                            src="logo.png"
+                            w="200px"
+                            mx="auto"
+                            alt="Sportlight"
                         />
-                        <Button
-                            fontFamily={"heading"}
-                            bg={"gray.200"}
-                            color={"gray.800"}
-                            onClick={confirmVideo}>
-                            Select Video
-                        </Button>
-                        {/* <center><Text fontSize='xl' color="gray.300">or</Text></center>
+                    </Stack>
+                    <Box as={"form"} mt={10}>
+                        <Stack spacing={4}>
+                            <Input
+                                placeholder="Paste Video Link..."
+                                bg={"gray.100"}
+                                border={0}
+                                color={"gray.500"}
+                                _placeholder={{
+                                    color: "gray.500"
+                                }}
+                                onChange={handleFieldChange}
+                            />
+                            <Button
+                                fontFamily={"heading"}
+                                bg={"gray.200"}
+                                color={"gray.800"}
+                                onClick={confirmVideo}>
+                                Select Video
+                            </Button>
+                            {/* <center><Text fontSize='xl' color="gray.300">or</Text></center>
                         <input type="file" name="video_link" id="video_link" style={{ display: "none" }} onChange={handleVideoUploadChange} />
                         <Button fontFamily={'heading'} bg={'gray.200'} color={'gray.800'} onClick={() => { document.getElementById('video_link').click() }}>
                             Upload Video
                         </Button> */}
-                        <Text fontSize="xs" color={"red.500"}></Text>
-                        <Button
-                            isLoading={isUploading}
-                            loadingText="Uploading Video..."
-                            fontFamily={"heading"}
-                            mt={8}
-                            w={"full"}
-                            bgGradient="linear(to-r, red.400,pink.400)"
-                            color={"white"}
-                            onClick={handleOnSubmit}
-                            _hover={{
-                                bgGradient: "linear(to-r, red.400,pink.400)",
-                                boxShadow: "xl"
-                            }}>
-                            Submit Video
-                        </Button>
-                        <Text
-                            color={"gray.400"}
-                            fontSize="sm"
-                            fontWeight="semibold"
-                            textAlign="center">
-                            Uploading may take time due to processing by
-                            multiple models via an API
-                        </Text>
-                        {modal && (
-                            <Modal
-                                isOpen={isOpen}
-                                onOpen={onOpen}
-                                onClose={onClose}
-                                data={data}
-                            />
-                        )}
-                    </Stack>
-                </Box>
-                form
-            </Stack>
-            {/* <Blur
+                            <Text fontSize="xs" color={"red.500"}></Text>
+                            <Button
+                                isLoading={isUploading}
+                                loadingText="Uploading Video..."
+                                fontFamily={"heading"}
+                                mt={8}
+                                w={"full"}
+                                bgGradient="linear(to-r, red.400,pink.400)"
+                                color={"white"}
+                                onClick={handleOnSubmit}
+                                _hover={{
+                                    bgGradient:
+                                        "linear(to-r, red.400,pink.400)",
+                                    boxShadow: "xl"
+                                }}>
+                                Submit Video
+                            </Button>
+                            <Text
+                                color={"gray.400"}
+                                fontSize="sm"
+                                fontWeight="semibold"
+                                textAlign="center">
+                                Uploading may take time due to processing by
+                                multiple models via an API
+                            </Text>
+                            {modal && (
+                                <Button as={Link} href="#highlights">
+                                    View Results
+                                </Button>
+                            )}
+                        </Stack>
+                    </Box>
+                    form
+                </Stack>
+                {/* <Blur
                 position={'absolute'}
                 top={-10}
                 left={-10}
                 style={{ filter: 'blur(70px)' }}
             /> */}
-        </HStack>
+            </HStack>
+            {modal && (
+                <Heading
+                    lineHeight={1.1}
+                    fontSize={{ base: "4xl", sm: "5xl" }}
+                    color="white"
+                    mb={4}>
+                    Highlights
+                </Heading>
+            )}
+            {modal && <Carousel data={data} video={videoLink.toString()} />}
+        </VStack>
     )
 }
 
