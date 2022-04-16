@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 html,
 body {
     padding: 0;
@@ -38,4 +42,8 @@ canvas {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #ffffff;
+}
+
+.carousel-item {
+    padding: 0 20%;
 }
