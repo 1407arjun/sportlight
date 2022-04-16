@@ -38,7 +38,9 @@ def return_timestamp():
             for lemma in synset.lemmas():
                 positive.append(lemma.name()) 
 
+
     strings=' '.join(positive)
+
 
     l=d['messages']
     phrases=[]
@@ -47,14 +49,18 @@ def return_timestamp():
     for i in l:
         data.append(list(i.values()))
 
+
+
     for i in range(len(data)):
         phrases.append(data[i][1])
         starttime.append(data[i][5])
+
 
     def create_dataframe(matrix, tokens):
         doc_names = [f'doc_{i+1}' for i, _ in enumerate(matrix)]
         df = pd.DataFrame(data=matrix, index=doc_names, columns=tokens)
         return(df)
+
 
     ans=[]
     for i in phrases:
@@ -67,14 +73,14 @@ def return_timestamp():
         result=create_dataframe(cosine_similarity_matrix,['Phrase','Strings'])
         ans.append(result['Phrase'].values[1])
 
-    ans
 
     stack_first=[]
     stack_last=[]
     for i in ans:
-        if(i>=0.001):
+        if(i>=0.00100000000000):
             index=ans.index(i)
             stack_first.append(starttime[index])
+
 
     stack_first.sort()
     result=[]
@@ -82,14 +88,22 @@ def return_timestamp():
         if(i not in result):
             result.append(i)
 
-    values=[]
+
+    values=list()
     for i in range(len(result)-1):
-        if(result[i]+3<result[i+1]):
+        if(result[i]+7<result[i+1]):
             values.append(result[i])
-            if(result[i+1] not in values)and(result[i] not in values):
+            if(result[i+1] not in values):
                 values.append(result[i+1])
 
-    len(result)
-    len(values)
-    data={"keys":values}
+
+    res=list()
+    for i in range(len(result)-1):
+        if(result[i]+8<result[i+1]):
+            res.append(result[i])
+            if(result[i+1] not in values) and (result[i] not in values):
+                res.append(result[i+1])
+
+
+    data={"keys":res}
     return jsonify(data)
