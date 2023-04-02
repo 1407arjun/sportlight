@@ -12,6 +12,7 @@ const responses = {
 }
 
 export default function handler(req, res) {
+    //process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
     if (req.method === "GET") {
         const payload = {
             url: req.query.url, //https://symbltestdata.s3.us-east-2.amazonaws.com/sample_video_file.mp4
@@ -21,7 +22,7 @@ export default function handler(req, res) {
         }
 
         const videoOption = {
-            url: "https://api-labs.symbl.ai/v1/process/video/url",
+            url: "https://api.symbl.ai/v1/process/video/url",
             headers: {
                 Authorization: `Bearer ${process.env.AUTH_TOKEN}`,
                 "Content-Type": "application/json"

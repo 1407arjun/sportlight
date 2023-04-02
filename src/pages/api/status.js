@@ -7,7 +7,7 @@ export default function handler(req, res) {
     if (req.method === "GET") {
         request.get(
             {
-                url: `https://api-labs.symbl.ai/v1/job/${req.query.id}`,
+                url: `https://api.symbl.ai/v1/job/${req.query.id}`,
                 headers: { Authorization: `Bearer ${process.env.AUTH_TOKEN}` },
                 json: true
             },
